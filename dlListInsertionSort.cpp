@@ -41,7 +41,7 @@ void insertionSort(Node*& head);
 void removePtr(NodePtr prev, NodePtr nodeToSort, NodePtr next);
 
 // inserts the node to sort in between prev and next
-void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next, NodePtr head);
+void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next, NodePtr& head);
 
 // do not modify the main function -- you must complete the empty methods below
 int main(int argc, char** argv) {
@@ -135,29 +135,39 @@ void insertionSort(Node*& head)
 
     while (outerPtr) {
 
-        nodeToSort = outerPtr;
+        // check to see if outerPtr is already in the correct place
+        if (outerPtr->getDataVal() < outerPtr->prev->getDataVal()) {
 
-        innerPtr = outerPtr;
+            // update which node we are sorting
+            nodeToSort = outerPtr;
 
-        outerPtr = outerPtr->next;
+            // update which node will be checking the sorted portion of the list for the right location
+            innerPtr = outerPtr->prev;
 
-        while ( (innerPtr->prev) && ( nodeToSort->getDataVal() < innerPtr->prev->getDataVal() ) ) {
-            innerPtr = innerPtr->prev;
-        }
+            // update which node we will be trying to sort next
+            outerPtr = outerPtr->next;
 
-        if (innerPtr != nodeToSort) {
+            // pull out the node that needs to be sorted from the list
             // remove nodeToSort from the list, fixing pointers
             prev = nodeToSort->prev;
             next = nodeToSort->next;
-
             removePtr(prev, nodeToSort, next);
+
+            // find the correct location for the nodeToSort
+            while ( (innerPtr->prev) && ( nodeToSort->getDataVal() < innerPtr->prev->getDataVal() ) ) {
+                innerPtr = innerPtr->prev;
+            }
 
             // insert
             prev = innerPtr->prev;
             next = innerPtr;
-
             insert(prev, nodeToSort, next, head);
+
         }
+        else { // outerPtr is already in the correct spot
+            outerPtr = outerPtr->next;
+        }
+        
     }
 }
 
@@ -179,7 +189,7 @@ void removePtr(NodePtr prev, NodePtr nodeToSort, NodePtr next) {
 
 
 // inserts the node to sort in between prev and next
-void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next, NodePtr head) {
+void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next, NodePtr& head) {
     if (prev) {
         prev->next = nodeToSort;
     }
