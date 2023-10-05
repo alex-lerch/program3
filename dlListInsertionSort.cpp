@@ -1,7 +1,7 @@
 // simple C++ program to build a doubly linked list from a file of longs,
 // sort the list using insertion sort, and then write the sorted data
 // to a file
-// By Mary Elaine Califf and _______
+// By Mary Elaine Califf and Alex Lerch
 
 #include <fstream>
 #include <iostream>
@@ -24,6 +24,8 @@ struct Node
         //Getter for public access of the dataVal
         long getDataVal() const { return dataVal; }
 };
+
+typedef Node* NodePtr;
 
 // read the file into the linked list
 void readFile(Node*& head, char* fileName);
@@ -69,12 +71,48 @@ int main(int argc, char** argv) {
 
 void readFile(Node*& head, char* fileName)
 {
-    // your code here
+    // variables used
+    ifstream infile; // the file that we are reading from
+    long currentNum; // the current num that we are grabbing from the input file
+    NodePtr currentNode; // the node of the list we are currently looking at
+
+    // open the input file for us to read
+    infile.open(fileName);
+
+    // read the file
+    while (infile >> currentNum) {
+        // process currentNum
+        if (!head) { // if list is empty
+            head = new Node(currentNum, nullptr, nullptr);
+            currentNode = head;
+        }
+        else { // list is not empty
+            currentNode->next = new Node(currentNum, nullptr, currentNode->prev);
+            currentNode = currentNode->next;
+        }
+    }
+
+    // close the file
+    infile.close();
 }
 
 void writeFile(Node* head, char* fileName)
 {
-    // your code here
+    // variables used
+    ofstream outfile; // the name of the output file we are printing to
+    NodePtr currentNode; // the current node in the list that we are looking at
+
+    // open the output file for us to write to
+    outfile.open(fileName);
+
+    // write the list of longs to the file
+    if (head) {
+        currentNode = head;
+        while (currentNode) {
+            outfile << currentNode->getDataVal() << "\n";
+            currentNode = currentNode->next;
+        }
+    }
 }
 
 void insertionSort(Node*& head)
