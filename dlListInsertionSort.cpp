@@ -41,7 +41,7 @@ void insertionSort(Node*& head);
 void removePtr(NodePtr prev, NodePtr nodeToSort, NodePtr next);
 
 // inserts the node to sort in between prev and next
-void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next);
+void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next, NodePtr head);
 
 // do not modify the main function -- you must complete the empty methods below
 int main(int argc, char** argv) {
@@ -121,8 +121,6 @@ void writeFile(Node* head, char* fileName)
 
 void insertionSort(Node*& head)
 {
-    //asl debug
-    std::cout << "in insertionSort()" << std::endl;
 
     // variables used
     NodePtr outerPtr; // the pointer that is used to point at the node that we are going to try and sort
@@ -133,64 +131,33 @@ void insertionSort(Node*& head)
 
     // go through entire list
 
-    //asl debug
-    std::cout << "head = " << head->getDataVal() << std::endl;
-
     outerPtr = head->next;
-
-    //asl debug
-    std::cout << "outerPtr = " << outerPtr->getDataVal() << std::endl;
 
     while (outerPtr) {
 
-        //asl debug
-        std::cout << "\n\n\nin while(outerPtr)" << std::endl;
-
         nodeToSort = outerPtr;
-
-        //asl debug
-        std::cout << "nodeToSort = " << nodeToSort->getDataVal() << std::endl;
 
         innerPtr = outerPtr;
 
-        //asl debug
-        std::cout << "innerPtr->prev = " << innerPtr->prev->getDataVal() << std::endl;
+        outerPtr = outerPtr->next;
 
         while ( (innerPtr->prev) && ( nodeToSort->getDataVal() < innerPtr->prev->getDataVal() ) ) {
             innerPtr = innerPtr->prev;
-
-            //asl debug
-            std::cout << "innerPtr = " << innerPtr->getDataVal() << std::endl;
         }
+
         if (innerPtr != nodeToSort) {
             // remove nodeToSort from the list, fixing pointers
             prev = nodeToSort->prev;
             next = nodeToSort->next;
 
-            //asl debug 
-            std::cout << "entering removePtr(" << prev->getDataVal() << ", " << nodeToSort->getDataVal() << ", " << next->getDataVal() << ")" << std::endl;
-
             removePtr(prev, nodeToSort, next);
-
-            //asldebug
-            bool nxt = false;
-            bool prv = false;
-            if (nodeToSort->prev) {prv = true;}
-            if (nodeToSort->next) {nxt = true;}
-            std::cout << "nodeToSort next = " << !nxt << ", prev = " << !prv << std::endl;
 
             // insert
             prev = innerPtr->prev;
             next = innerPtr;
 
-            //asl debug
-            //std::cout << "entering insert(" << prev->getDataVal() << ", " << nodeToSort->getDataVal() << ", " << next->getDataVal() << ")" << std::endl;
-
-            insert(prev, nodeToSort, next);
+            insert(prev, nodeToSort, next, head);
         }
-
-        // update outerPtr to next item
-        outerPtr = outerPtr->next;
     }
 }
 
@@ -212,7 +179,7 @@ void removePtr(NodePtr prev, NodePtr nodeToSort, NodePtr next) {
 
 
 // inserts the node to sort in between prev and next
-void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next) {
+void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next, NodePtr head) {
     if (prev) {
         prev->next = nodeToSort;
     }
@@ -221,5 +188,9 @@ void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next) {
 
     if (next) {
         next->prev = nodeToSort;
+    }
+
+    if (next == head) {
+        head = nodeToSort;
     }
 }
