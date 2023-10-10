@@ -108,6 +108,9 @@ void mergesort(vector<long>& arr)
                 rightArrayEnd = rightArrayIndex + (sizeOfSortedArrays - 1);
             }
 
+            //asl debug
+            std::cout << "size of sorted arrays = " << sizeOfSortedArrays << std::endl;
+
             // merge the two logical arrays
             merge(arr, tempVector, leftArrayIndex, rightArrayIndex, rightArrayEnd);
 
@@ -123,6 +126,10 @@ void mergesort(vector<long>& arr)
 
 // merge the two logical arrays
 void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int rightArrayIndex, int rightArrayEnd) {
+
+    //asl debug
+    std::cout << "leftArrayIndex = " << leftArrayIndex << ", rightArrayIndex = " << rightArrayIndex << ", rightArrayEnd = " << rightArrayEnd << "\n\n" << std::endl;
+
     // variables used
     int leftArrayEnd = rightArrayIndex - 1;
     int tempPosition = leftArrayIndex;
@@ -146,11 +153,23 @@ void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int 
 
     //
     while (leftArrayIndex <= leftArrayEnd) {
+
+        //asl debug
+        if (arr[leftArrayIndex] == 0) {
+            std::cout << "arr[" << leftArrayIndex << "] == 0 from leftArrayIndex" << std::endl;
+        }
+
         tempVector[tempPosition++] = arr[leftArrayIndex++];
     }
 
     //
     while (rightArrayIndex <= rightArrayEnd) {
+
+        //asl debug
+        if (arr[rightArrayIndex] == 0) {
+            std::cout << "arr[" << rightArrayIndex << "] == 0 from rightArrayIndex" << std::endl;
+        }
+
         tempVector[tempPosition++] = arr[rightArrayIndex++];
     }
 
