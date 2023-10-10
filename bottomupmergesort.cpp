@@ -1,7 +1,7 @@
 // simple C++ program to read in an array of longs, sort
 // the array using bottom up mergesort 
 // and then write the sorted data to a file
-// By Mary Elaine Califf and _______
+// By Mary Elaine Califf and Alex Lerch
 
 #include <iostream>
 #include <fstream>
@@ -43,12 +43,38 @@ int main(int argc, char** argv) {
 
 void readFile(vector<long>& arr, char* fileName)
 {
-    // your code here
+    // variables used
+    ifstream infile; // the file that we are reading from
+    long currentNum; // the current num that we are grabbing from the input file
+
+    // open the file for us to read
+    infile.open(fileName);
+
+    // read the file
+    while (infile >> currentNum) {
+        // process the number
+        arr.push_back(currentNum);
+    }
+
+    // close the file
+    infile.close();
 }
 
 void writeFile(const vector<long>& arr, char* fileName)
 {
-    // your code here
+    // variables used
+    ofstream outfile; // the name of the output file we are printing to
+
+    // open the output file for us to write to
+    outfile.open(fileName);
+
+    // write the list of longs to the outfile
+    for (long num : arr) {
+        outfile << num << "\n";
+    }
+
+    // close the output file
+    outfile.close();
 }
 
 
