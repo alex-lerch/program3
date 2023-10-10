@@ -82,7 +82,7 @@ void writeFile(const vector<long>& arr, char* fileName)
 void mergesort(vector<long>& arr)
 {
     // temporary vector used to help sort the logical arrays
-    std::vector<long> tempVector;
+    std::vector<long> tempVector(arr.size());
 
     // the size of the logical arrays to sort
     int sizeOfSortedArrays = 1;
