@@ -101,8 +101,8 @@ void mergesort(vector<long>& arr)
 
             // calculate the end index for the right array
             int rightArrayEnd;
-            if ( arr.size() < (rightArrayIndex + (sizeOfSortedArrays - 1)) ) {
-                rightArrayEnd = arr.size();
+            if ( arr.size() - 1 < (rightArrayIndex + (sizeOfSortedArrays - 1)) ) {
+                rightArrayEnd = arr.size() - 1;
             }
             else {
                 rightArrayEnd = rightArrayIndex + (sizeOfSortedArrays - 1);
