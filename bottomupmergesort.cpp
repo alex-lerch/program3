@@ -18,7 +18,8 @@ void writeFile(const vector<long>& arr, char* fileName);
 // sort the vector using bottom up mergesort
 void mergesort(vector<long>& arr);
 
-// add any function prototypes for any additional functions here
+// merge the two logical arrays
+void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int rightArrayIndex, int rightArrayEnd);
 
 
 // do not modify the main function -- you must complete/modify the methods below
@@ -80,8 +81,81 @@ void writeFile(const vector<long>& arr, char* fileName)
 
 void mergesort(vector<long>& arr)
 {
+    // temporary vector used to help sort the logical arrays
+    std::vector<long> tempVector;
 
-    // your code here
+    // the size of the logical arrays to sort
+    int sizeOfSortedArrays = 1;
+
+    // while we still have logical arrays to sort
+    while (sizeOfSortedArrays < arr.size()) {
+
+        // the start index for the left logical array to be sorted
+        int leftArrayIndex = 0;
+
+        // check for real group
+        while ( leftArrayIndex < (arr.size() - sizeOfSortedArrays) ) {
+            
+            // calculate the start index for the right array
+            int rightArrayIndex = leftArrayIndex + sizeOfSortedArrays;
+
+            // calculate the end index for the right array
+            int rightArrayEnd;
+            if ( arr.size() < (rightArrayIndex + (sizeOfSortedArrays - 1)) ) {
+                rightArrayEnd = arr.size();
+            }
+            else {
+                rightArrayEnd = rightArrayIndex + (sizeOfSortedArrays - 1);
+            }
+
+            // merge the two logical arrays
+            merge(arr, tempVector, leftArrayIndex, rightArrayIndex, rightArrayEnd);
+
+            // move start index for the left array to the next unsorted logical array
+            leftArrayIndex += 2 * sizeOfSortedArrays;
+        }
+
+        // update the size of sorted arrays
+        sizeOfSortedArrays *= 2;
+    }
 }
 
-// any additional function implementations go here
+
+// merge the two logical arrays
+void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int rightArrayIndex, int rightArrayEnd) {
+    // variables used
+    int leftArrayEnd = rightArrayIndex - 1;
+    int tempPosition = leftArrayIndex;
+    int numElements = rightArrayEnd - leftArrayIndex + 1;
+
+    //
+    while (leftArrayIndex <= leftArrayEnd && rightArrayIndex <= rightArrayEnd) {
+        
+        //
+        if (arr[leftArrayIndex] <= arr[rightArrayIndex]) {
+            
+            //
+            tempVector[tempPosition++] = arr[leftArrayIndex++];
+        }
+        else {
+
+            //
+            tempVector[tempPosition++] = arr[rightArrayIndex++];
+        }
+    }
+
+    //
+    while (leftArrayIndex <= leftArrayEnd) {
+        tempVector[tempPosition++] = arr[leftArrayIndex++];
+    }
+
+    //
+    while (rightArrayIndex <= rightArrayEnd) {
+        tempVector[tempPosition++] = arr[rightArrayIndex++];
+    }
+
+    // copy tempVector back to arr. needs to be fixed so that copy doesn't occur for final program
+    for (int i = 0; i < numElements; ++i, --rightArrayEnd) {
+        arr[rightArrayEnd] = tempVector[rightArrayEnd];
+    }
+}
