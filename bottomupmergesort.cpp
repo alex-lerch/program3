@@ -118,6 +118,14 @@ void mergesort(vector<long>& arr)
             leftArrayIndex += 2 * sizeOfSortedArrays;
         }
 
+        // copy what's left over
+        for (int i = leftArrayIndex; i < arr.size(); i++) {
+            tempVector[i] = arr[i];
+        }
+
+        // swap arr and tempVector
+        arr.swap(tempVector);
+
         // update the size of sorted arrays
         sizeOfSortedArrays *= 2;
     }
@@ -135,23 +143,23 @@ void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int 
     int tempPosition = leftArrayIndex;
     int numElements = rightArrayEnd - leftArrayIndex + 1;
 
-    //
+    // while both logical arrays have items left to merge
     while (leftArrayIndex <= leftArrayEnd && rightArrayIndex <= rightArrayEnd) {
         
-        //
+        // if left is less than or equal to right
         if (arr[leftArrayIndex] <= arr[rightArrayIndex]) {
             
-            //
+            // add left item and increment
             tempVector[tempPosition++] = arr[leftArrayIndex++];
         }
-        else {
+        else { // right is less than left
 
-            //
+            // add right item and increment
             tempVector[tempPosition++] = arr[rightArrayIndex++];
         }
     }
 
-    //
+    // while there are left over items in the left logical array
     while (leftArrayIndex <= leftArrayEnd) {
 
         //asl debug
@@ -159,10 +167,11 @@ void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int 
             std::cout << "arr[" << leftArrayIndex << "] == 0 from leftArrayIndex" << std::endl;
         }
 
+        // add item and increment
         tempVector[tempPosition++] = arr[leftArrayIndex++];
     }
 
-    //
+    // while there are left over items in the righ logical array
     while (rightArrayIndex <= rightArrayEnd) {
 
         //asl debug
@@ -170,11 +179,8 @@ void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int 
             std::cout << "arr[" << rightArrayIndex << "] == 0 from rightArrayIndex" << std::endl;
         }
 
+        // add item and increment
         tempVector[tempPosition++] = arr[rightArrayIndex++];
     }
 
-    // copy tempVector back to arr. needs to be fixed so that copy doesn't occur for final program
-    for (int i = 0; i < numElements; ++i, --rightArrayEnd) {
-        arr[rightArrayEnd] = tempVector[rightArrayEnd];
-    }
 }
