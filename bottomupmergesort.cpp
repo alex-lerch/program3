@@ -81,35 +81,35 @@ void writeFile(const vector<long>& arr, char* fileName)
 
 void mergesort(vector<long>& arr)
 {
-    // temporary vector used to help sort the logical arrays
-    std::vector<long> tempVector(arr.size());
+    // variables used
+    int sizeOfSortedArrays; // the size of the logical arrays that are already sorted
+    std::vector<long> tempVector(arr.size()); // temporary vector used to help sort the logical arrays
+    int leftArrayIndex; // the start index for the left logical array to be sorted
+    int rightArrayIndex; // start index for the right logical array to be sorted
+    int rightArrayEnd; // end index for the right logical array to be sorted
 
     // the size of the logical arrays to sort
-    int sizeOfSortedArrays = 1;
+    sizeOfSortedArrays = 1;
 
     // while we still have logical arrays to sort
     while (sizeOfSortedArrays < arr.size()) {
 
-        // the start index for the left logical array to be sorted
-        int leftArrayIndex = 0;
+        // set left index to 0
+        leftArrayIndex = 0;
 
         // check for real group
         while ( leftArrayIndex < (arr.size() - sizeOfSortedArrays) ) {
             
             // calculate the start index for the right array
-            int rightArrayIndex = leftArrayIndex + sizeOfSortedArrays;
+            rightArrayIndex = leftArrayIndex + sizeOfSortedArrays;
 
-            // calculate the end index for the right array
-            int rightArrayEnd;
+            // calculate rightArrayEnd
             if ( arr.size() - 1 < (rightArrayIndex + (sizeOfSortedArrays - 1)) ) {
                 rightArrayEnd = arr.size() - 1;
             }
             else {
                 rightArrayEnd = rightArrayIndex + (sizeOfSortedArrays - 1);
             }
-
-            //asl debug
-            std::cout << "size of sorted arrays = " << sizeOfSortedArrays << std::endl;
 
             // merge the two logical arrays
             merge(arr, tempVector, leftArrayIndex, rightArrayIndex, rightArrayEnd);
@@ -135,13 +135,10 @@ void mergesort(vector<long>& arr)
 // merge the two logical arrays
 void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int rightArrayIndex, int rightArrayEnd) {
 
-    //asl debug
-    std::cout << "leftArrayIndex = " << leftArrayIndex << ", rightArrayIndex = " << rightArrayIndex << ", rightArrayEnd = " << rightArrayEnd << "\n\n" << std::endl;
-
     // variables used
-    int leftArrayEnd = rightArrayIndex - 1;
-    int tempPosition = leftArrayIndex;
-    int numElements = rightArrayEnd - leftArrayIndex + 1;
+    int leftArrayEnd = rightArrayIndex - 1; // end index of the left array
+    int tempPosition = leftArrayIndex; // a temporary index used similarly to an iterator
+    int numElements = rightArrayEnd - leftArrayIndex + 1; // the number of elements to be sorted
 
     // while both logical arrays have items left to merge
     while (leftArrayIndex <= leftArrayEnd && rightArrayIndex <= rightArrayEnd) {
@@ -162,22 +159,12 @@ void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int 
     // while there are left over items in the left logical array
     while (leftArrayIndex <= leftArrayEnd) {
 
-        //asl debug
-        if (arr[leftArrayIndex] == 0) {
-            std::cout << "arr[" << leftArrayIndex << "] == 0 from leftArrayIndex" << std::endl;
-        }
-
         // add item and increment
         tempVector[tempPosition++] = arr[leftArrayIndex++];
     }
 
     // while there are left over items in the righ logical array
     while (rightArrayIndex <= rightArrayEnd) {
-
-        //asl debug
-        if (arr[rightArrayIndex] == 0) {
-            std::cout << "arr[" << rightArrayIndex << "] == 0 from rightArrayIndex" << std::endl;
-        }
 
         // add item and increment
         tempVector[tempPosition++] = arr[rightArrayIndex++];
