@@ -4,3 +4,5 @@ test_dictionary.cpp
 outfile
 dlListInsertionSort
 junk
+test-perc-junk
+test-percolatedown

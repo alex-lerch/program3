@@ -9,6 +9,8 @@
 #include <vector>
 using namespace std;
 
+#define ARR_SIZE arr[0]
+
 // read the file into the vector (starting at index 1)
 void readFile(vector<long>& arr, char* fileName);
 
@@ -18,7 +20,11 @@ void writeFile(const vector<long>& arr, char* fileName);
 // sort the vector using heapsort (data starts at index 1)
 void heapsort(vector<long>& arr);
 
-// add any function prototypes for any additional functions here
+// turns any 1 based array into a max heap using the heapify algorithm
+void maxHeapify(std::vector<long>& arr);
+
+// move the item at parentIndex down into its correct spot within the array
+void percolateDown(std::vector<long>& arr, int parentIndex); 
 
 // do not modify the main function -- you must complete the empty methods below
 int main(int argc, char** argv) {
@@ -57,7 +63,7 @@ void readFile(vector<long>& arr, char* fileName)
   // fill array with values from the infile, incrementing the size along the way
   while (infile >> currentNum) {
     arr.push_back(currentNum);
-    arr[0]++;
+    ARR_SIZE++;
   }
 
   // close the file
@@ -83,8 +89,30 @@ void writeFile(const vector<long>& arr, char* fileName)
 
 void heapsort(vector<long>& arr)
 {
-  // your code here
+  // variables used
+
+  // build a max heap with heapify algorithm
+  maxHeapify(arr);
+
+  // delete max value swapping it to the end
+
+
 }
 
-// implementation code for any additional functions here
-  
+// turns any 1 based array into a max heap using the heapify algorithm
+void maxHeapify(std::vector<long>& arr) {
+
+  // variables used
+
+  // for each parent from (the size of the array)/2 down to the first parent(root)
+  for (int arrIndex = ARR_SIZE/2; arrIndex >= 1; arrIndex--) {
+    percolateDown(arr, arrIndex);
+  }
+}  
+
+
+
+// move the item at parentIndex down into its correct spot within the array
+void percolateDown(std::vector<long>& arr, int parentIndex) {
+
+}
