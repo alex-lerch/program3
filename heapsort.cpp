@@ -3,14 +3,25 @@
 // to a file
 // By Mary Elaine Califf and Alex Lerch
 
+/*------------------------------------------------------------------------------*
+ *   included libraries                                                         *
+ *------------------------------------------------------------------------------*/
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
 #include <vector>
 using namespace std;
 
+
+/*------------------------------------------------------------------------------*
+ *   definitions                                                                *
+ *------------------------------------------------------------------------------*/
 #define ARR_SIZE arr[0]
 
+
+/*------------------------------------------------------------------------------*
+ *   function declarations                                                      *
+ *------------------------------------------------------------------------------*/
 // read the file into the vector (starting at index 1)
 void readFile(vector<long>& arr, char* fileName);
 
@@ -35,6 +46,13 @@ void swapNums(std::vector<long>& arr, int firstIndex, int secondIndex);
 // helper function for percolate down. finds which of the parent's children has the largest value
 int findLargestChildIndex(const std::vector<long>& arr, int firstChildIndex, int secondChildIndex);
 
+// moves the max value to the end of the array and treats it as no longer in the heap
+void deleteMax(std::vector<long>& arr);
+
+
+/*------------------------------------------------------------------------------*
+ *   main function                                                              *
+ *------------------------------------------------------------------------------*/
 // do not modify the main function -- you must complete the empty methods below
 int main(int argc, char** argv) {
 
@@ -53,8 +71,14 @@ int main(int argc, char** argv) {
   writeFile(theArray, outFileName);
 
   return 0;
-}
+} // end of main
 
+
+/*------------------------------------------------------------------------------*
+ *   function definitions                                                       *
+ *------------------------------------------------------------------------------*/
+
+// read the file into the vector (starting at index 1)
 void readFile(vector<long>& arr, char* fileName)
 {
   // variables used
@@ -79,6 +103,9 @@ void readFile(vector<long>& arr, char* fileName)
   infile.close();
 }
 
+
+
+// write the vector to the file (starting at index 1)
 void writeFile(const vector<long>& arr, char* fileName)
 {
   // variables used
@@ -96,33 +123,38 @@ void writeFile(const vector<long>& arr, char* fileName)
   outfile.close();
 }
 
-void heapsort(vector<long>& arr)
-{
-  // variables used
+
+
+// sort the vector using heapsort (data starts at index 1)
+void heapsort(vector<long>& arr) {
 
   // build a max heap with heapify algorithm
   maxHeapify(arr);
 
   // delete max value swapping it to the end
-
+  while (ARR_SIZE > 0) {
+    deleteMax(arr);
+  }
 
 }
 
+
+
 // turns any 1 based array into a max heap using the heapify algorithm
 void maxHeapify(std::vector<long>& arr) {
-
-  // variables used
 
   // for each parent from (the size of the array)/2 down to the first parent(root)
   for (int arrIndex = ARR_SIZE/2; arrIndex >= 1; arrIndex--) {
     percolateDown(arr, arrIndex);
   }
+
 }  
 
 
 
 // move the item at parentIndex down into its correct spot within the array
 void percolateDown(std::vector<long>& arr, int parentIndex) {
+
   // variables used
   int numChildren; // the number of children that the parent index has
   int firstChildIndex = parentIndex * 2; // the index that the first child would be at
@@ -157,6 +189,7 @@ void percolateDown(std::vector<long>& arr, int parentIndex) {
 
 // helper method for percolateDown. determines how many children the parent index has
 int calculateNumChildren(const std::vector<long>& arr, int parentIndex) {
+
     if ( ( (parentIndex * 2) + 1 ) <= ARR_SIZE ) {
         return 2;
     }
@@ -166,25 +199,40 @@ int calculateNumChildren(const std::vector<long>& arr, int parentIndex) {
     else {
         return 0;
     }
+
 }
 
 
 
 // helper function for percolate down that swaps the two numbers in the vector
 void swapNums(std::vector<long>& arr, int firstIndex, int secondIndex) {
+
     long temp = arr[firstIndex];
     arr[firstIndex] = arr[secondIndex];
     arr[secondIndex] = temp;
+
 }
 
 
 
 // helper function for percolate down. finds which of the parent's children has the largest value
 int findLargestChildIndex(const std::vector<long>& arr, int firstChildIndex, int secondChildIndex) {
+
     if (arr[firstChildIndex] >= arr[secondChildIndex]) {
         return firstChildIndex;
     }
     else {
         return secondChildIndex;
     }
+
+}
+
+
+
+// moves the max value to the end of the array and treats it as no longer in the heap
+void deleteMax(std::vector<long>& arr) {
+
+  swapNums(arr, 1, ARR_SIZE);
+  ARR_SIZE--;
+  percolateDown(arr, 1);
 }
