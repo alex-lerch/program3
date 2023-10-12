@@ -49,9 +49,15 @@ void readFile(vector<long>& arr, char* fileName)
   // open the file
   infile.open(fileName);
 
-  // add the values from the file to the array
+  /* add the values from the file to the array */
+
+  // initialize index to hold the size
+  arr.push_back(0);
+
+  // fill array with values from the infile, incrementing the size along the way
   while (infile >> currentNum) {
     arr.push_back(currentNum);
+    arr[0]++;
   }
 
   // close the file
@@ -67,8 +73,8 @@ void writeFile(const vector<long>& arr, char* fileName)
   outfile.open(fileName);
 
   // write the array to the file
-  for (long num : arr) {
-    outfile << num << "\n";
+  for (int arrIndex = 1; arrIndex < arr.size(); arrIndex++) {
+    outfile << arr[arrIndex] << "\n";
   }
 
   // close the file
