@@ -3,11 +3,23 @@
 // to a file
 // By Mary Elaine Califf and Alex Lerch
 
+/*------------------------------------------------------------------------------*
+ *   included libraries                                                         *
+ *------------------------------------------------------------------------------*/
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
+
+
+/*------------------------------------------------------------------------------*
+ *   namespaces                                                                 *
+ *------------------------------------------------------------------------------*/
 using namespace std;
 
+
+/*------------------------------------------------------------------------------*
+ *   private structs                                                            *
+ *------------------------------------------------------------------------------*/
 //The Node struct is set up so you physically cannot change the data value after creating the object.
 //Do not change this. You must only modify the pointer values when moving nodes.
 struct Node
@@ -25,8 +37,16 @@ struct Node
         long getDataVal() const { return dataVal; }
 };
 
+
+/*------------------------------------------------------------------------------*
+ *   type definitions                                                           *
+ *------------------------------------------------------------------------------*/
 typedef Node* NodePtr;
 
+
+/*------------------------------------------------------------------------------*
+ *   function declarations                                                      *
+ *------------------------------------------------------------------------------*/
 // read the file into the linked list
 void readFile(Node*& head, char* fileName);
 
@@ -43,6 +63,10 @@ void removePtr(NodePtr prev, NodePtr nodeToSort, NodePtr next);
 // inserts the node to sort in between prev and next
 void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next, NodePtr& head);
 
+
+/*------------------------------------------------------------------------------*
+ *   main function                                                              *
+ *------------------------------------------------------------------------------*/
 // do not modify the main function -- you must complete the empty methods below
 int main(int argc, char** argv) {
 
@@ -70,8 +94,13 @@ int main(int argc, char** argv) {
     }
 
     return 0;
-}
+} // end of main function
 
+
+/*------------------------------------------------------------------------------*
+ *   function definitions                                                       *
+ *------------------------------------------------------------------------------*/
+// read the file into the linked list
 void readFile(Node*& head, char* fileName)
 {
     // variables used
@@ -102,6 +131,9 @@ void readFile(Node*& head, char* fileName)
     infile.close();
 }
 
+
+
+// write the linked list to the file
 void writeFile(Node* head, char* fileName)
 {
     // variables used
@@ -119,6 +151,9 @@ void writeFile(Node* head, char* fileName)
     }
 }
 
+
+
+// sort the linked list using an insertion sort following the standard algorithm
 void insertionSort(Node*& head)
 {
 
@@ -129,8 +164,7 @@ void insertionSort(Node*& head)
     NodePtr next; // the node that is directly after the node to be sorted
     NodePtr nodeToSort; // the node that is meant to be sorted
 
-    // go through entire list
-
+    /* go through entire list */
     outerPtr = head->next;
 
     while (outerPtr) {
@@ -171,35 +205,44 @@ void insertionSort(Node*& head)
     }
 }
 
+
+
 // removes the pointer from the list and fixes the pointers of the two adjacent nodes
 void removePtr(NodePtr prev, NodePtr nodeToSort, NodePtr next) {
+    
     // remove node to sort from the list
     nodeToSort->next = nullptr;
     nodeToSort->prev = nullptr;
 
     // fix the pointers of the two adjacent nodes
-    if (prev) {
+    if (prev) { // if prev exists
         prev->next = next;
     }
-
-    if (next) {
+    if (next) { // if next exists
         next->prev = prev;
     }
 }
 
 
+
 // inserts the node to sort in between prev and next
 void insert(NodePtr prev, NodePtr nodeToSort, NodePtr next, NodePtr& head) {
+
+    // if the previous node exists
     if (prev) {
         prev->next = nodeToSort;
     }
+
+    // fix nodeToSort's prev and next pointers
     nodeToSort->prev = prev;
     nodeToSort->next = next;
 
+    // if next node exists
     if (next) {
         next->prev = nodeToSort;
     }
 
+    // if next is the head of the list
     if (next == head) {
         head = nodeToSort;
     }

@@ -16,7 +16,7 @@ using namespace std;
 /*------------------------------------------------------------------------------*
  *   definitions                                                                *
  *------------------------------------------------------------------------------*/
-#define ARR_SIZE arr[0]
+#define HEAP_SIZE arr[0]
 
 
 /*------------------------------------------------------------------------------*
@@ -89,14 +89,13 @@ void readFile(vector<long>& arr, char* fileName)
   infile.open(fileName);
 
   /* add the values from the file to the array */
-
   // initialize index to hold the size
   arr.push_back(0);
 
   // fill array with values from the infile, incrementing the size along the way
   while (infile >> currentNum) {
     arr.push_back(currentNum);
-    ARR_SIZE++;
+    HEAP_SIZE++;
   }
 
   // close the file
@@ -132,7 +131,7 @@ void heapsort(vector<long>& arr) {
   maxHeapify(arr);
 
   // delete max value swapping it to the end
-  while (ARR_SIZE > 0) {
+  while (HEAP_SIZE > 0) {
     deleteMax(arr);
   }
 
@@ -144,7 +143,7 @@ void heapsort(vector<long>& arr) {
 void maxHeapify(std::vector<long>& arr) {
 
   // for each parent from (the size of the array)/2 down to the first parent(root)
-  for (int arrIndex = ARR_SIZE/2; arrIndex >= 1; arrIndex--) {
+  for (int arrIndex = HEAP_SIZE/2; arrIndex >= 1; arrIndex--) {
     percolateDown(arr, arrIndex);
   }
 
@@ -164,7 +163,7 @@ void percolateDown(std::vector<long>& arr, int parentIndex) {
   // calculate how many children the parent index has
   numChildren = calculateNumChildren(arr, parentIndex);
 
-  /* */
+  /* determine which index has the child with the largest value */
   switch (numChildren) {
       case 1:
           // the largest child must be the first child
@@ -190,12 +189,15 @@ void percolateDown(std::vector<long>& arr, int parentIndex) {
 // helper method for percolateDown. determines how many children the parent index has
 int calculateNumChildren(const std::vector<long>& arr, int parentIndex) {
 
-    if ( ( (parentIndex * 2) + 1 ) <= ARR_SIZE ) {
+    // if the second child of the parent exists
+    if ( ( (parentIndex * 2) + 1 ) <= HEAP_SIZE ) {
         return 2;
     }
-    else if ( (parentIndex * 2) <= ARR_SIZE) {
+    // if only the first child of the parent exists
+    else if ( (parentIndex * 2) <= HEAP_SIZE) {
         return 1;
     }
+    // the parent doesn't have any children
     else {
         return 0;
     }
@@ -218,9 +220,11 @@ void swapNums(std::vector<long>& arr, int firstIndex, int secondIndex) {
 // helper function for percolate down. finds which of the parent's children has the largest value
 int findLargestChildIndex(const std::vector<long>& arr, int firstChildIndex, int secondChildIndex) {
 
+    // if the first child is a larger or equal value to the second child
     if (arr[firstChildIndex] >= arr[secondChildIndex]) {
         return firstChildIndex;
     }
+    // the second child is larger
     else {
         return secondChildIndex;
     }
@@ -232,7 +236,13 @@ int findLargestChildIndex(const std::vector<long>& arr, int firstChildIndex, int
 // moves the max value to the end of the array and treats it as no longer in the heap
 void deleteMax(std::vector<long>& arr) {
 
-  swapNums(arr, 1, ARR_SIZE);
-  ARR_SIZE--;
+  // swap the first item and last item currently still in the heap
+  swapNums(arr, 1, HEAP_SIZE);
+
+  // decrement the size of the heap
+  HEAP_SIZE--;
+
+  // move the new root to the correct place within the heap
   percolateDown(arr, 1);
+  
 }

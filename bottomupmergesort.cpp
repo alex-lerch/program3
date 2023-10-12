@@ -3,12 +3,24 @@
 // and then write the sorted data to a file
 // By Mary Elaine Califf and Alex Lerch
 
+/*------------------------------------------------------------------------------*
+ *   included libraries                                                         *
+ *------------------------------------------------------------------------------*/
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include <vector>
+
+
+/*------------------------------------------------------------------------------*
+ *   namespaces                                                                 *
+ *------------------------------------------------------------------------------*/
 using namespace std;
 
+
+/*------------------------------------------------------------------------------*
+ *   function declarations                                                      *
+ *------------------------------------------------------------------------------*/
 // read the file into the vector
 void readFile(vector<long>& arr, char* fileName);
 
@@ -22,6 +34,9 @@ void mergesort(vector<long>& arr);
 void merge(vector<long>& arr, vector<long>& tempVector, int leftArrayIndex, int rightArrayIndex, int rightArrayEnd);
 
 
+/*------------------------------------------------------------------------------*
+ *   main function                                                              *
+ *------------------------------------------------------------------------------*/
 // do not modify the main function -- you must complete/modify the methods below
 int main(int argc, char** argv) {
 
@@ -40,8 +55,13 @@ int main(int argc, char** argv) {
     writeFile(theArray, outFileName);
 
     return 0;
-}
+} // end of main function
 
+
+/*------------------------------------------------------------------------------*
+ *   function definitions                                                       *
+ *------------------------------------------------------------------------------*/
+// read the file into the vector
 void readFile(vector<long>& arr, char* fileName)
 {
     // variables used
@@ -61,6 +81,9 @@ void readFile(vector<long>& arr, char* fileName)
     infile.close();
 }
 
+
+
+// write the vector to the file
 void writeFile(const vector<long>& arr, char* fileName)
 {
     // variables used
@@ -79,6 +102,8 @@ void writeFile(const vector<long>& arr, char* fileName)
 }
 
 
+
+// sort the vector using bottom up mergesort
 void mergesort(vector<long>& arr)
 {
     // variables used

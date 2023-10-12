@@ -7,3 +7,6 @@ junk
 test-perc-junk
 test-percolatedown
 heapsort
+bottomupmergesort
+mergesort
+insertionsort
