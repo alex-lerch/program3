@@ -23,16 +23,6 @@ void printArray(std::vector<long>& arr);
 
 
 int main() {
-    /* create vectors that will be used for testing */
-    
-
-    
-
-    // create vector with two children where the left child should be swapped
-    //std::vector<long> twoChildrenLeftVec = {3, 1, 5, 4};
-
-    // create vector with two children where the right child should be swapped
-    //std::vector<long> twoChildrenRightVec = {3, 1, 4, 5};
 
     /* test percolateDown function */
 
@@ -45,7 +35,6 @@ int main() {
     std::cout << "\nexpected array = [0, 1, ]\nactual array =   ";
     printArray(arr);
     std::cout << "\n";
-    arr.clear();
     */
 
     /* asl
@@ -58,7 +47,6 @@ int main() {
     std::cout << "\nexpected array = [1, 5, 1, ]\nactual array =   ";
     printArray(arr);
     std::cout << "\n";
-    arr.clear();
     */
 
     /* asl
@@ -70,10 +58,9 @@ int main() {
     std::cout << "\nexpected array = [2, 5, 1, 4, ]\nactual array =   ";
     printArray(arr);
     std::cout << "\n";
-    arr.clear();
     */
 
-    /* asl */
+    /* asl
     // test for two children where right child should be swapped
     std::vector<long> arr = {3, 1, 4, 5};
     percolateDown(arr, 1);
@@ -82,7 +69,45 @@ int main() {
     std::cout << "\nexpected array = [2, 5, 4, 1, ]\nactual array =   ";
     printArray(arr);
     std::cout << "\n";
-    arr.clear();
+    */
+
+    /* asl
+    // test for two children but no swaps
+    std::vector<long> arr = {3, 5, 1, 4};
+    percolateDown(arr, 1);
+    // decrement the size of the heap
+    ARR_SIZE--;
+    std::cout << "\nexpected array = [2, 5, 1, 4, ]\nactual array =   ";
+    printArray(arr);
+    std::cout << "\n";
+    */
+
+
+    /* asl
+    // test for two swaps where there are two children then just one child
+    std::vector<long> arr = {6, 1, 4, 5, 2, 3, 6};
+    percolateDown(arr, 1);
+    // decrement the size of the heap
+    ARR_SIZE--;
+    std::cout << "\nexpected array = [5, 5, 4, 6, 2, 3, 1, ]\nactual array =   ";
+    printArray(arr);
+    std::cout << "\n";
+    */
+
+    
+    /* asl */
+    // test for two swaps both with two children
+    std::vector<long> arr = {7, 1, 4, 5, 2, 3, 6, 8};
+    percolateDown(arr, 1);
+    // decrement the size of the heap
+    ARR_SIZE--;
+    std::cout << "\nexpected array = [6, 5, 4, 8, 2, 3, 6, 1, ]\nactual array =   ";
+    printArray(arr);
+    std::cout << "\n";
+
+    /* asl */
+    // test for when the array is empty
+
     
 }
 

@@ -24,7 +24,16 @@ void heapsort(vector<long>& arr);
 void maxHeapify(std::vector<long>& arr);
 
 // move the item at parentIndex down into its correct spot within the array
-void percolateDown(std::vector<long>& arr, int parentIndex); 
+void percolateDown(std::vector<long>& arr, int parentIndex);
+
+// helper function for percolateDown. determines how many children the parent index has
+int calculateNumChildren(const std::vector<long>& arr, int parentIndex);
+
+// helper function for percolate down that swaps the two numbers in the vector
+void swapNums(std::vector<long>& arr, int firstIndex, int secondIndex);
+
+// helper function for percolate down. finds which of the parent's children has the largest value
+int findLargestChildIndex(const std::vector<long>& arr, int firstChildIndex, int secondChildIndex);
 
 // do not modify the main function -- you must complete the empty methods below
 int main(int argc, char** argv) {
@@ -114,5 +123,68 @@ void maxHeapify(std::vector<long>& arr) {
 
 // move the item at parentIndex down into its correct spot within the array
 void percolateDown(std::vector<long>& arr, int parentIndex) {
+  // variables used
+  int numChildren; // the number of children that the parent index has
+  int firstChildIndex = parentIndex * 2; // the index that the first child would be at
+  int secondChildIndex = (parentIndex * 2) + 1; // the index that the second child would be at
+  int largestChildIndex; // the index of the highest value child of parent
 
+  // calculate how many children the parent index has
+  numChildren = calculateNumChildren(arr, parentIndex);
+
+  /* */
+  switch (numChildren) {
+      case 1:
+          // the largest child must be the first child
+          largestChildIndex = firstChildIndex;
+          break;
+      case 2:
+          // find which child is of greater value
+          largestChildIndex = findLargestChildIndex(arr, firstChildIndex, secondChildIndex);
+          break;
+  }
+
+  // if we need to swap
+  if (numChildren > 0 && arr[parentIndex] < arr[largestChildIndex]) {
+      swapNums(arr, parentIndex, largestChildIndex);
+      // in case we still need to percolate down
+      percolateDown(arr, largestChildIndex);
+  }
+
+}
+
+
+
+// helper method for percolateDown. determines how many children the parent index has
+int calculateNumChildren(const std::vector<long>& arr, int parentIndex) {
+    if ( ( (parentIndex * 2) + 1 ) <= ARR_SIZE ) {
+        return 2;
+    }
+    else if ( (parentIndex * 2) <= ARR_SIZE) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+
+
+// helper function for percolate down that swaps the two numbers in the vector
+void swapNums(std::vector<long>& arr, int firstIndex, int secondIndex) {
+    long temp = arr[firstIndex];
+    arr[firstIndex] = arr[secondIndex];
+    arr[secondIndex] = temp;
+}
+
+
+
+// helper function for percolate down. finds which of the parent's children has the largest value
+int findLargestChildIndex(const std::vector<long>& arr, int firstChildIndex, int secondChildIndex) {
+    if (arr[firstChildIndex] >= arr[secondChildIndex]) {
+        return firstChildIndex;
+    }
+    else {
+        return secondChildIndex;
+    }
 }
